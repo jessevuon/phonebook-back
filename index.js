@@ -4,7 +4,9 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
+app.use(express.static('build'))
 app.use(cors())
+app.use(bodyParser.json())
 let persons = [
     {
       name: 'Arto Hellas',
@@ -33,7 +35,7 @@ let persons = [
     return Math.floor(Math.random() * max);
     }
   app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1>')
+    res.json(persons)
   })
   app.get('/api/persons', (req, res) => {
     res.json(persons)
@@ -54,8 +56,6 @@ let persons = [
   
     response.status(204).end()
   })
-  app.use(bodyParser.json())
-
 
   app.post('/api/persons', (request, response) => {
     const person = request.body
@@ -74,13 +74,7 @@ let persons = [
   response.json(person)
 })
   
-  /*const app = http.createServer((request, response) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' })
-    response.end(JSON.stringify(persons))
-  })*/
-
   const PORT = process.env.PORT || 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
-  
